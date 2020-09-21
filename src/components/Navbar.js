@@ -31,16 +31,35 @@ const Upper = styled.span`
 
 const CompanyNavbarBrand = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const warehouses = props.warehouses
+  const exsistWarehouses = [];
+  warehouses.forEach((property, i) => exsistWarehouses[i] = property.name);
 
   const toggle = () => setIsOpen(!isOpen);
-  
+
+  function activateWarehouse(warehouse) {
+
+    const wlength = warehouses.length;
+    for (let i = 0; i < wlength; ++i) {
+      warehouses[i].active = false;
+    }
+    if (warehouse === 'init') {
+      props.passActiveWarehouse([...warehouses])
+      return;
+    }
+    const activeWH = warehouses.find(wHouse => wHouse.name === warehouse)
+    const activeWarehouseIndex = warehouses.findIndex(wHouse => wHouse.name === warehouse);
+    activeWH.active = true;
+    warehouses.splice(activeWarehouseIndex, activeWH);
+    props.passActiveWarehouse([...warehouses]);
+  }
   return (
-      
+
     <MainBlueNav>
 
       <Navbar light expand="md">
         <NavbarBrand href="/">
-         <Logo/>
+          <Logo />
 
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
@@ -53,25 +72,24 @@ const CompanyNavbarBrand = (props) => {
               <NavLink className='text-white' href="https://github.com/reactstrap/reactstrap">Alerts</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
-             <DropdownToggle nav>
-              <Boldlink className='text-white'>
-                Products Managment
+              <DropdownToggle nav>
+                <Boldlink className='text-white'>
+                  Products Managment
               </Boldlink>
-              </DropdownToggle> 
-              
+              </DropdownToggle>
+
               <DropdownMenu right>
-                <DropdownItem>
-              <Upper>
-                  warehouse north
-              </Upper>
-                </DropdownItem>
-                <DropdownItem>
-                <Upper>
-                  warehouse west
-              </Upper>
-                </DropdownItem>
+                {exsistWarehouses.map((warehouse, i) => {
+                  return (
+                    <DropdownItem key={`warehouse${i}`} onClick={() => activateWarehouse(warehouse)}>
+                      <Upper>
+                        warehouse {warehouse}
+                      </Upper>
+                    </DropdownItem>
+                  )
+                })}
                 <DropdownItem divider />
-                <DropdownItem>
+                <DropdownItem onClick={() => activateWarehouse('init')}>
                   Main Page
                 </DropdownItem>
               </DropdownMenu>
@@ -83,6 +101,5 @@ const CompanyNavbarBrand = (props) => {
     </MainBlueNav>
   );
 }
-
 
 export default CompanyNavbarBrand;
