@@ -14,7 +14,7 @@ import {
   NavbarText
 } from 'reactstrap';
 import Logo from './Logo'
-import './Navbar.css'
+// import './Navbar.css'
 import styled from 'styled-components'
 const MainBlueNav = styled.div`
     background-color: blue;
@@ -29,7 +29,7 @@ const Upper = styled.span`
 `;
 
 
-const CompanyNavbarBrand = (props) => {
+const CompanyDashboard = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const warehouses = props.warehouses
   const exsistWarehouses = [];
@@ -102,4 +102,4 @@ const CompanyNavbarBrand = (props) => {
   );
 }
 
-export default CompanyNavbarBrand;
+export default CompanyDashboard;
