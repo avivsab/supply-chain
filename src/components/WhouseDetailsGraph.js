@@ -15,10 +15,8 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
             .then(data => {
                 return drawCompData(data)
             })
-            .catch(e => {
-                    // toggleErr(e)
-                console.error(`\x1b[43m${e}`)
-            })
+            .catch(e =>  console.error(`\x1b[43m${e}`))
+
     }
     function drawCompData(data) {
 
