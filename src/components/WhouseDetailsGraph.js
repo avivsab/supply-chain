@@ -4,7 +4,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     let [currentWH] = activeWarehouse.filter(wh => wh.active);
     currentWH = currentWH.name;
     const URL = `wh-${currentWH}-history.json`;
-
+    let error;
     function getMonthesData() {
         fetch(URL, {
             mode: 'no-cors',
@@ -15,7 +15,10 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
             .then(data => {
                 return drawCompData(data)
             })
-            .catch(e =>  console.error(`\x1b[43m${e}`))
+            .catch(e =>  {
+                console.error(`\x1b[43m${e}`)
+                return toggleErr(e)
+            })
 
     }
     function drawCompData(data) {
@@ -66,7 +69,8 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
     }
     const [err, handleErr] = React.useState('');
-    const toggleErr = () => { setTimeout(() => {
+    const toggleErr = (error) => { setTimeout(() => {
+        if (!error) return;
         handleErr("Time line can't be shown in graph")
     }, 500);
         };
@@ -75,16 +79,13 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     // relating to canvas el
     const mainCanvasRef = React.createRef();
     const scaleCanvasRef = React.createRef();
-    const errRef = React.createRef();
-
+       
     useEffect(() => {
         getMonthesData();
-        toggleErr();
+        toggleErr(error);
     });
     // styling
-    // const graphHeadLine = { fontFamily: 'Comic', color: 'orange' };
-    // const mainCanvasStyle = { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg)' };
-    // const secondaryCanvasStyle = { display: 'block', margin: 'auto', position: 'relative', left: '35px' };
+
     const [graphHeadLine, mainCanvasStyle, secondaryCanvasStyle] = [
         { fontFamily: 'Comic', color: 'orange' },
         { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg)' },

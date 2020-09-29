@@ -35,7 +35,7 @@ export class WhouseDetails extends Component {
                 })
             })
             .catch(e => {
-                alert("Error - can't fetch remote data")
+                this.setState({error: 'error displaying the data'})
                 console.error(`\x1b[36m${e}`)
             })
         return this.state;
@@ -64,9 +64,12 @@ export class WhouseDetails extends Component {
     }
 
     render() {
-        const { product, quantity, expired } = this.state;
+        const { product, quantity, expired, error } = this.state;
         return (
-            <div>              
+            <div>   
+                    {error ? <h3 style={{color: 'red'}}>Problem getting Warehouse data</h3>
+                    :
+                    <>          
                     <details style={{position: 'absolute', marginLeft: '50px'}}>
                         <summary>Warehouse available info</summary>
                         {this.stateArr.map((values, i) => {
@@ -79,6 +82,8 @@ export class WhouseDetails extends Component {
                         <div><Upper>quantity</Upper>:<p className="text-success">{quantity}</p></div>
                         <div><Upper>date</Upper>:<p className="text-info">{new Date(expired).toUTCString()}</p></div>
                     </section>
+                    </>
+                    }
             </div>
         )
     }
