@@ -82,7 +82,9 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         toggleErr();
     });
     // styling
-    
+    // const graphHeadLine = { fontFamily: 'Comic', color: 'orange' };
+    // const mainCanvasStyle = { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg)' };
+    // const secondaryCanvasStyle = { display: 'block', margin: 'auto', position: 'relative', left: '35px' };
     const [graphHeadLine, mainCanvasStyle, secondaryCanvasStyle] = [
         { fontFamily: 'Comic', color: 'orange' },
         { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg)' },
