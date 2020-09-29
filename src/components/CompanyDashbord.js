@@ -54,7 +54,6 @@ const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
   }
 
   return (
-
     <MainBlueNav>
       <Navbar light expand="md">
         <NavbarBrand href="/">

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-// import { render } from '@testing-library/react';
 
-export default function WhouseDetailsGraph({activeWarehouse}) {
+export default function WhouseDetailsGraph({ activeWarehouse }) {
     let [currentWH] = activeWarehouse.filter(wh => wh.active);
     currentWH = currentWH.name;
     const URL = `wh-${currentWH}-history.json`;
-    
+
     function getMonthesData() {
         fetch(URL, {
             mode: 'no-cors',
@@ -17,14 +16,14 @@ export default function WhouseDetailsGraph({activeWarehouse}) {
                 return drawCompData(data)
             })
             .catch(e => {
-                alert("Error - can't fetch data and draw quantity in graph")
+                    // toggleErr(e)
                 console.error(`\x1b[43m${e}`)
             })
     }
     function drawCompData(data) {
 
         // getting the fetched data
-        
+
         const monthInvetoryData = data;
 
         // and mapping it for using later to draw
@@ -49,13 +48,13 @@ export default function WhouseDetailsGraph({activeWarehouse}) {
         lineLength = lineGraph.length;
         monthX = 0;
         for (i = 0; i < lineLength; ++i) {
-            monthX += 100
+            monthX += 100;
             ctx.lineTo(monthX, lineGraph[i]);
         }
         ctx.stroke();
 
         // drwing secondary canvas
-        
+
         const scaleSecondaryCanvas = scaleCanvasRef.current;
         const scaleCtx = scaleSecondaryCanvas.getContext("2d");
         monthX = 0;
@@ -64,35 +63,52 @@ export default function WhouseDetailsGraph({activeWarehouse}) {
         for (i = 0; i < monthesLength; ++i) {
             let currentMonth = monthGraphNames[i];
             scaleCtx.fillText(currentMonth, monthX, 10);
-            monthX += 100
+            monthX += 100;
         }
-           
+
     }
+    const [err, handleErr] = React.useState('');
+    const toggleErr = () => { setTimeout(() => {
+        handleErr("Time line can't be shown in graph")
+    }, 500);
+        };
+
 
     // relating to canvas el
     const mainCanvasRef = React.createRef();
     const scaleCanvasRef = React.createRef();
+    const errRef = React.createRef();
 
     useEffect(() => {
-        getMonthesData()
+        getMonthesData();
+        toggleErr();
     });
-
+    // styling
+    // const graphHeadLine = { fontFamily: 'Comic', color: 'orange' };
+    // const mainCanvasStyle = { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg)' };
+    // const secondaryCanvasStyle = { display: 'block', margin: 'auto', position: 'relative', left: '35px' };
+    const [graphHeadLine, mainCanvasStyle, secondaryCanvasStyle] = [
+        { fontFamily: 'Comic', color: 'orange' },
+        { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg)' },
+        { display: 'block', margin: 'auto', position: 'relative', left: '35px' }
+    ]
     return (
         <div>
             <h5>Graph View</h5>
-            <h3 style={{ fontFamily: 'Comic', color: 'orange' }}>Stock History Sketch</h3>
+            {err && <h2 style={{color: 'red'}} >{err}</h2>}
+            <h3 style={graphHeadLine}>Stock History Sketch</h3>
             <canvas
                 width={550}
                 height={400}
                 ref={mainCanvasRef}
-                style={{ backgroundColor: "lavender", transform: 'skewX(10deg) rotateX(180deg)' }}>
+                style={mainCanvasStyle}>
             </canvas>
             <span style={{ position: 'absolute' }}>Stock quantity | (1000 per unit)</span>
             <canvas
                 width={550}
                 height={100}
                 ref={scaleCanvasRef}
-                style={{ display: 'block', margin: 'auto', position: 'relative', left: '35px' }}
+                style={secondaryCanvasStyle}
             >
             </canvas>
 
