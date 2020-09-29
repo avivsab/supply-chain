@@ -15,10 +15,12 @@ export class WhouseDetails extends Component {
 
         };
     }
-    URL = `wh-details.json`;
+    activeWarehouse = this.setActiveWH(this.props.activeWarehouse);
+    URL = `wh-${this.activeWarehouse}-details.json`;
     stateArr = [];
     counter = 0;
-    async getWarehouseStock(cb) {
+    async getWarehouseStock() {
+        this.setActiveWH(this.props.activeWarehouse);
         await fetch(this.URL, {
             mode: 'no-cors',
             headers: {
@@ -32,7 +34,11 @@ export class WhouseDetails extends Component {
                     expired: data.expired
                 })
             })
-        return this.state
+            .catch(e => {
+                alert("Error - can't fetch remote data")
+                console.error(`\x1b[36m${e}`)
+            })
+        return this.state;
     }
     async stateToArr() {
         const stateData = await this.getWarehouseStock();
@@ -41,33 +47,37 @@ export class WhouseDetails extends Component {
             this.stateArr.push(property, stateData[property]);
         }
     }
-
+    setActiveWH(WH) {
+        const activate = WH.filter(wh => (wh.active));
+        const activeWarehouse = activate[0].name
+        return activeWarehouse;
+    }
     componentDidMount() {
-        this.getWarehouseStock(this.stateToArr)
+        this.getWarehouseStock(this.stateToArr);
 
     }
     componentDidUpdate() {
-        
+
         if (this.counter > 1) return;
-        this.stateToArr()
-        this.counter++
+        this.stateToArr();
+        this.counter++;
     }
 
     render() {
-
+        const { product, quantity, expired } = this.state;
         return (
             <div>              
                     <details style={{position: 'absolute', marginLeft: '50px'}}>
                         <summary>Warehouse available info</summary>
                         {this.stateArr.map((values, i) => {
-                            return i % 2 === 0 &&
-                                (<small className="text-info" style={{ display: 'block', textAlign: 'left', marginLeft: '9px' }} key={i}>{values}{i===0 &&'s'} </small>)
+                            return i % 2 === 0 && //  show only keys
+                                (<small className="text-info" style={{ display: 'block', textAlign: 'center', fontSize: '100%' }} key={i}>{values}{i===0 &&'s'} </small>)
                         })}
                     </details>
                     <section>
-                        <div><Upper>product</Upper>:<p className="text-primary">{this.state.product}</p></div>
-                        <div><Upper>quantity</Upper>:<p className="text-success">{this.state.quantity}</p></div>
-                        <div><Upper>date</Upper>:<p className="text-info">{new Date(this.state.expired).toUTCString()}</p></div>
+                        <div><Upper>product</Upper>:<p className="text-primary">{product}</p></div>
+                        <div><Upper>quantity</Upper>:<p className="text-success">{quantity}</p></div>
+                        <div><Upper>date</Upper>:<p className="text-info">{new Date(expired).toUTCString()}</p></div>
                     </section>
             </div>
         )
