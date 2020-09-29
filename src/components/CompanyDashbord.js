@@ -13,9 +13,10 @@ import {
   DropdownItem,
   NavbarText
 } from 'reactstrap';
+
 import Logo from './Logo'
-// import './Navbar.css'
 import styled from 'styled-components'
+
 const MainBlueNav = styled.div`
     background-color: blue;
 `;
@@ -29,38 +30,35 @@ const Upper = styled.span`
 `;
 
 
-const CompanyDashboard = (props) => {
+const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const warehouses = props.warehouses
   const exsistWarehouses = [];
   warehouses.forEach((property, i) => exsistWarehouses[i] = property.name);
 
   const toggle = () => setIsOpen(!isOpen);
 
   function activateWarehouse(warehouse) {
-
     const wlength = warehouses.length;
     for (let i = 0; i < wlength; ++i) {
       warehouses[i].active = false;
     }
     if (warehouse === 'init') {
-      props.passActiveWarehouse([...warehouses])
+      passActiveWarehouse([...warehouses])
       return;
     }
     const activeWH = warehouses.find(wHouse => wHouse.name === warehouse)
     const activeWarehouseIndex = warehouses.findIndex(wHouse => wHouse.name === warehouse);
     activeWH.active = true;
     warehouses.splice(activeWarehouseIndex, activeWH);
-    props.passActiveWarehouse([...warehouses]);
+    passActiveWarehouse([...warehouses]);
   }
+
   return (
 
     <MainBlueNav>
-
       <Navbar light expand="md">
         <NavbarBrand href="/">
           <Logo />
-
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>

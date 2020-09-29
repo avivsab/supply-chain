@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
+// import { render } from '@testing-library/react';
 
-export default function WhouseDetailsGraph() {
-    const URL = 'wh-history.json';
-
+export default function WhouseDetailsGraph({activeWarehouse}) {
+    let [currentWH] = activeWarehouse.filter(wh => wh.active);
+    currentWH = currentWH.name;
+    const URL = `wh-${currentWH}-history.json`;
+    
     function getMonthesData() {
         fetch(URL, {
             mode: 'no-cors',
@@ -12,6 +15,10 @@ export default function WhouseDetailsGraph() {
         }).then(res => res.json())
             .then(data => {
                 return drawCompData(data)
+            })
+            .catch(e => {
+                alert("Error - can't fetch data and draw quantity in graph")
+                console.error(`\x1b[43m${e}`)
             })
     }
     function drawCompData(data) {

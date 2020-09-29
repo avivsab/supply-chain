@@ -24,8 +24,8 @@ export const Main = (params) => {
                  <h2>warehouse {wh.name}</h2>  
                  {
                      !showGraph ? 
-                     <WhouseDetails /> :
-                     <WhouseDetailsGraph />  
+                     <WhouseDetails activeWarehouse={warehouses}/> :
+                     <WhouseDetailsGraph activeWarehouse={warehouses}/>  
                  }
                  {
                      !showGraph ? 
