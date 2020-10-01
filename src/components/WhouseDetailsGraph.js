@@ -4,7 +4,6 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     let [currentWH] = activeWarehouse.filter(wh => wh.active);
     currentWH = currentWH.name;
     const URL = `wh-${currentWH}-history.json`;
-    let error;
     function getMonthesData() {
         fetch(URL, {
             mode: 'no-cors',
@@ -38,13 +37,24 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
             monthGraphNames[i] = monthGraphNames[i].toString().substr(3, 5).trim();
         }
 
+        // scaling the canvas before building and drawing
+
+        const canvasHeight = (Math.max(...lineGraph) + 50);     
+        let monthesLength = monthGraphNames.length;
+        const canvasWidth = monthesLength * 100;
+        scaleCanvasWidth(canvasWidth);
+        scaleCanvasHeight(canvasHeight);
         // drawing main canvas
 
         const canvas = mainCanvasRef.current;
+        const middleX = canvas.width / 2;
+        const middleY = canvas.height / 2;
         const ctx = canvas.getContext("2d");
         ctx.fillStyle = "lightblue";
+        ctx.strokeStyle = '#008fb0';
+        ctx.lineWidth = 5;
         ctx.beginPath();
-        ctx.moveTo(0, canvas.height / 2);
+        ctx.moveTo(0, middleY);
         let i, lineLength, monthX;
         lineLength = lineGraph.length;
         monthX = 0;
@@ -55,10 +65,10 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
             ctx.font = "20px Arial";
             ctx.fillStyle = "red";
             ctx.translate(monthX, lineGraph[i])
-            ctx.rotate(Math.PI)
+            ctx.rotate(Math.PI);
             ctx.fillText(lineGraph[i], 10, 0);
-            ctx.rotate(Math.PI * (-1))
-            ctx.restore()
+            ctx.rotate(Math.PI * (-1));
+            ctx.restore();
         }
         ctx.stroke();
 
@@ -67,7 +77,6 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         const scaleSecondaryCanvas = scaleCanvasRef.current;
         const scaleCtx = scaleSecondaryCanvas.getContext("2d");
         monthX = 0;
-        let monthesLength = monthGraphNames.length;
         scaleCtx.font = "15px Comic Sans";
         for (i = monthesLength - 1; i >= 0; --i) {
             let currentMonth = monthGraphNames[i];
@@ -76,27 +85,33 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         }
 
         // arrow line
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = '#008fb0';
-        const middle = canvas.width / 2;
         ctx.beginPath();
-        ctx.moveTo(middle, 20);
-        ctx.lineTo(middle + 80, 20);
+        ctx.moveTo(middleX, 20);
+        ctx.lineTo(middleX + 80, 20);
         ctx.stroke();
         // arrow head
         ctx.beginPath();
-        ctx.moveTo(middle + 60, 1);
-        ctx.lineTo(middle + 80, 20);
-        ctx.lineTo(middle + 60, 40);
+        ctx.moveTo(middleX + 60, 1);
+        ctx.lineTo(middleX + 80, 20);
+        ctx.lineTo(middleX + 60, 40);
         ctx.stroke();
     }
     const [err, handleErr] = React.useState('');
     const toggleErr = (error) => {
-        setTimeout(() => {
+        setTimeout(() => { // UX
             if (!error) return;
-            handleErr("Time line can't be shown in graph")
+            console.dir(error)
+            if (error.message.includes("SyntaxError")) {
+                handleErr("Time line can't be shown in graph");
+            }
         }, 500);
     };
+
+    const [width, setWidth] = React.useState(500);
+    const scaleCanvasWidth = (canvasWidth) => setWidth(canvasWidth);
+
+    const [height, setHeight] = React.useState(300);
+    const scaleCanvasHeight = (canvasHeight) => setHeight(canvasHeight);
 
 
     // relating to canvas el
@@ -105,10 +120,9 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
     useEffect(() => {
         getMonthesData();
-        toggleErr(error);
     });
-    // styling
 
+    // styling
     const [graphHeadLine, mainCanvasStyle, secondaryCanvasStyle] = [
         { fontFamily: 'Comic', color: 'orange' },
         { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg) rotateY(180deg)' },
@@ -121,21 +135,22 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     // graph date
     const date = new Date();
     const year = date.getFullYear();
+
     return (
         <div>
-            <h5>Graph View</h5>
+            <h5 className="text-info">Graph View</h5>
             {err && <h2 style={{ color: 'red' }} >{err}</h2>}
             <h3 style={graphHeadLine}>Stock History Sketch</h3>
             <canvas
-                width={550}
-                height={400}
+                width={width}
+                height={height}
                 ref={mainCanvasRef}
                 style={mainCanvasStyle}>
             </canvas>
-            <span style={quantitySpan}>Stock quantity | (1000 per unit)</span>
+            <span style={quantitySpan}>Stock quantity | (<b className="text-danger">1000</b> per unit)</span>
             <span style={yearSpan}>{year}</span>
             <canvas
-                width={550}
+                width={width}
                 height={100}
                 ref={scaleCanvasRef}
                 style={secondaryCanvasStyle}
