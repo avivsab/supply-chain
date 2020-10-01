@@ -39,7 +39,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
         // scaling the canvas before building and drawing
 
-        const canvasHeight = (Math.max(...lineGraph) + 50);     
+        const canvasHeight = (Math.max(...lineGraph) + 50);
         let monthesLength = monthGraphNames.length;
         const canvasWidth = monthesLength * 100;
         scaleCanvasWidth(canvasWidth);
@@ -98,13 +98,14 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     }
     const [err, handleErr] = React.useState('');
     const toggleErr = (error) => {
-        setTimeout(() => { // UX
-            if (!error) return;
-            console.dir(error)
-            if (error.message.includes("SyntaxError")) {
+        if (!error) return;
+        if (typeof error === 'object' && error.message.includes("Unexpected token")) {
+            const httpError = new Error("can't retrieve data - connection or parsing syntax problem")
+            console.log(`\x1b[35mCustom dev msg ${httpError}`);
+            setTimeout(() => { // UX
                 handleErr("Time line can't be shown in graph");
-            }
-        }, 500);
+            }, 500);
+        }
     };
 
     const [width, setWidth] = React.useState(500);
