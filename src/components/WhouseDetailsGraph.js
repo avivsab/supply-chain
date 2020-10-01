@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {Button} from 'reactstrap'
+import { Button } from 'reactstrap'
 
 export default function WhouseDetailsGraph({ activeWarehouse }) {
     let [currentWH] = activeWarehouse.filter(wh => wh.active);
@@ -13,7 +13,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
             },
         }).then(res => res.json())
             .then(data => {
-                return graphViewFlag ? drawCompData(data) : drawLtrGraph(data);
+                return drawCompBase(data);
             })
             .catch(e => {
                 console.error(`\x1b[43m${e}`)
@@ -21,7 +21,12 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
             })
 
     }
-    function drawCompData(data) {
+
+    let lineGraph, 
+        monthGraph, monthGraphNames, monthesLength,
+        canvasHeight, canvasWidth;
+
+    function drawCompBase(data) {
 
         // getting the fetched data
 
@@ -29,9 +34,9 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
         // and mapping it for using later to draw
 
-        const lineGraph = monthInvetoryData.map(item => item.quantity);
-        const monthGraph = monthInvetoryData.map(item => item.month);
-        const monthGraphNames = monthGraph.map(month => {
+        lineGraph = monthInvetoryData.map(item => item.quantity);
+        monthGraph = monthInvetoryData.map(item => item.month);
+        monthGraphNames = monthGraph.map(month => {
             return new Date(month.toLocaleString("en-us", { month: "short" }))
         })
         for (let i = 0; i < monthGraphNames.length; ++i) {
@@ -40,11 +45,15 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
         // scaling the canvas before building and drawing
 
-        const canvasHeight = (Math.max(...lineGraph) + 50);
-        let monthesLength = monthGraphNames.length;
-        const canvasWidth = monthesLength * 100;
+        canvasHeight = (Math.max(...lineGraph) + 50);
+        monthesLength = monthGraphNames.length;
+        canvasWidth = monthesLength * 100;
         scaleCanvasWidth(canvasWidth);
         scaleCanvasHeight(canvasHeight);
+        return graphViewFlag ? drawCompData() : drawLtrGraph();
+    }
+    function drawCompData() {
+
         // drawing main canvas
 
         const canvas = mainCanvasRef.current;
@@ -78,7 +87,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
         const secondaryCanvas = secondaryCanvasRef.current;
         const secondaryCtx = secondaryCanvas.getContext("2d");
-        secondaryCtx.clearRect(0,0,canvasWidth,canvasHeight)
+        secondaryCtx.clearRect(0, 0, canvasWidth, canvasHeight)
         monthX = 0;
         secondaryCtx.font = "15px Comic Sans";
         for (i = monthesLength - 1; i >= 0; --i) {
@@ -99,30 +108,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         ctx.lineTo(middleX + 60, 40);
         ctx.stroke();
     }
-    function drawLtrGraph(data) {
-
-        // getting the fetched data
-
-        const monthInvetoryData = data;
-
-        // and mapping it for using later to draw
-
-        const lineGraph = monthInvetoryData.map(item => item.quantity);
-        const monthGraph = monthInvetoryData.map(item => item.month);
-        const monthGraphNames = monthGraph.map(month => {
-            return new Date(month.toLocaleString("en-us", { month: "short" }))
-        })
-        for (let i = 0; i < monthGraphNames.length; ++i) {
-            monthGraphNames[i] = monthGraphNames[i].toString().substr(3, 5).trim();
-        }
-
-        // scaling the canvas before building and drawing
-
-        const canvasHeight = (Math.max(...lineGraph) + 50);
-        let monthesLength = monthGraphNames.length;
-        const canvasWidth = monthesLength * 100;
-        scaleCanvasWidth(canvasWidth);
-        scaleCanvasHeight(canvasHeight);
+    function drawLtrGraph() {
 
         // drawing main alternative canvas
 
@@ -139,10 +125,10 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         // altentive solution first part
         for (i = 0; i < lineLength; ++i) {
             monthX += 100
-            currentPoint = Math.abs((canvasHeight-lineGraph[i]));
+            currentPoint = Math.abs((canvasHeight - lineGraph[i]));
             currentQuantity = lineGraph[i];
             ltrCtx.lineTo(monthX, currentPoint);
-            ltrCtx.fillText(currentQuantity, monthX+20, currentPoint-5)
+            ltrCtx.fillText(currentQuantity, monthX + 20, currentPoint - 5)
         }
         ltrCtx.stroke();
 
@@ -150,7 +136,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
         const ltrSecondaryCanvas = ltrSecondaryCanvasRef.current;
         const ltrSecondaryCtx = ltrSecondaryCanvas.getContext("2d");
-        ltrSecondaryCtx.clearRect(0,0,canvasWidth,canvasHeight);
+        ltrSecondaryCtx.clearRect(0, 0, canvasWidth, canvasHeight);
         monthX = 0;
         ltrSecondaryCtx.font = "15px Comic Sans";
         // altentive solution second part - regular looping
@@ -202,7 +188,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         { position: 'absolute' },
         { color: 'cadetblue', zIndex: 1, position: 'relative', bottom: '5px', right: '520px' },
         { color: 'cadetblue', zIndex: 1, position: 'relative', top: '18px' },
-        
+
     ];
     // graph date
     const date = new Date();
@@ -238,7 +224,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
                             width={width}
                             height={height}
                             ref={ltrMainCanvasRef}
-                            style={{backgroundColor: "currentColor", transform: 'skewX(8deg)'}}
+                            style={{ backgroundColor: "currentColor", transform: 'skewX(8deg)' }}
                         >
                         </canvas>
                         <span style={quantitySpan}>Stock quantity | (<b className="text-danger">1000</b> per unit)</span>
@@ -253,7 +239,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
                     </>
 
             }
-            
+
             <Button color="primary" onClick={toggleGraph}>Switch Direction</Button>
 
         </div>
