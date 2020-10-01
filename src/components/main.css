@@ -3,3 +3,10 @@
     right: 20px;
     top: 10%;
 }
+
+.brand-name {
+    background: linear-gradient(140deg, #EADEDB 0%, #BC70A4 50%, #BFD641 75%);
+    margin: 5px 250px 25px;
+    border-radius: 3px;
+    padding: 0 10px 5px;
+}
