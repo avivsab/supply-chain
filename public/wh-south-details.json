@@ -1,0 +1,15 @@
+[
+    {
+        "name": "south",
+        "product": "rice",
+        "quantity": 200,
+        "units": "KG",
+        "expired": "2025-05-23T19:25:00.511Z"
+    },
+    {
+        "name": "south",
+        "product": "corn",
+        "quantity": 100,
+        "expired": "2022-06-20T19:29:00.511Z"
+    }
+]
