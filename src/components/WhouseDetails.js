@@ -109,20 +109,20 @@ export class WhouseDetails extends Component {
                     <details style={{position: 'absolute', marginLeft: '50px'}}>
                         <summary>Warehouse available info</summary>
                         {this.stateArr.map((value,i) => {
-                           return i % 2 === 0 &&  //  show only keys
+                           return i % 2 === 0 && (i !== this.stateArr.length-2) &&  //  show only keys and not the last one
                                 (<small className="text-info" style={{ display: 'block', textAlign: 'center', fontSize: '100%' }} key={i}>{value}{i===0 &&'s'} </small>)
                         })}
                     </details>
                     <section>
-                        <div><Upper>product</Upper>:<p className="text-primary">{product}</p></div>
-                        <div><Upper>quantity</Upper>:<p className="text-success">{quantity}</p></div>
+                        <div><Upper>product</Upper>:<p className="font-weight-bold text-primary">{product}</p></div>
+                        <div><Upper>quantity</Upper>:<p className="font-weight-bold text-success">{quantity}</p></div>
                         {expired==='No expiration date'?
-                        <div><Upper>date</Upper>:<p className="text-info">{expired}</p></div>
+                        <div><Upper>date</Upper>:<p className="font-weight-bold text-info">{expired}</p></div>
                         :
                         new Date(expired).toUTCString() === 'Invalid Date'?
                         <Unexpired Upper={Upper}/>
                         :
-                        <div><Upper>date</Upper>:<p className="text-info">{new Date(expired).toUTCString()}</p></div>
+                        <div><Upper>date</Upper>:<p className="font-weight-bold text-info">{new Date(expired).toUTCString()}</p></div>
                     }
                     </section>
                     </>

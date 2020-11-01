@@ -172,7 +172,9 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     const ltrSecondaryCanvasRef = React.createRef();
 
     const [graphViewFlag, setLtrView] = React.useState(true);
-    const toggleGraph = () => setLtrView(!graphViewFlag)
+    const toggleGraph = () => {
+        setLtrView(!graphViewFlag);
+    }
 
     useEffect(() => {
         getMonthesData();
@@ -190,6 +192,11 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         { color: 'cadetblue', zIndex: 1, position: 'relative', top: '18px' },
 
     ];
+    const switchDirectionButton = {
+        position: 'absolute',
+        right: '15px',
+        top: '17%',
+        margin: '10px'}
     // graph date
     const date = new Date();
     const year = date.getFullYear();
@@ -197,7 +204,14 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     return (
         <div>
             <h5 className="text-info">Graph View</h5>
-            {err && <h2 style={{ color: 'red' }} >{err}</h2>}
+            {err && <h2 style={{ color: 'red' }} > 
+            <small className="text-info">
+                {'To view warehouse stock click on "Display Details" '}
+                </small> 
+                &#128073;
+                <br /> 
+            {err}
+            </h2>}
             <h3 style={graphHeadLine}>Stock History Sketch</h3>
             {
                 graphViewFlag ?
@@ -240,7 +254,9 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
             }
 
-            <Button color="primary" onClick={toggleGraph}>Switch Direction</Button>
+            <Button color="primary" onClick={toggleGraph} style={switchDirectionButton}>
+            {graphViewFlag ? 'Show Regular Graph Direction' : 'Show Right To Left Graph' }
+            </Button>
 
         </div>
     )

@@ -16,7 +16,7 @@ export const Main = () => {
     return (
         <div>
             <CompanyDashboard warehouses={warehouses} passActiveWarehouse={setActive} />
-            <h1 className="brand-name">Company</h1>
+            <h1 className="brand-name text-primary">Company Stocks Managment</h1>
             {warehouses.map(wh => {
                 return (
                     wh.active &&
