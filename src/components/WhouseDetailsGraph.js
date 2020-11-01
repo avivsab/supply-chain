@@ -22,7 +22,8 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
 
     }
 
-    let lineGraph, 
+    const [units, setUnits] = React.useState(1000)
+    let lineGraph, normalizeNum,
         monthGraph, monthGraphNames, monthesLength,
         canvasHeight, canvasWidth;
 
@@ -46,17 +47,33 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         // scaling the canvas before building and drawing
 
         canvasHeight = (Math.max(...lineGraph) + 50);
+        // handle big quantity of stock
+        normalizeNum = proportionsMeasure(canvasHeight);
+        canvasHeight /= normalizeNum; 
+        console.log(canvasHeight)
         monthesLength = monthGraphNames.length;
         canvasWidth = monthesLength * 100;
         scaleCanvasWidth(canvasWidth);
         scaleCanvasHeight(canvasHeight);
-        return graphViewFlag ? drawCompData() : drawLtrGraph();
+        return graphViewFlag ? drawCompData(normalizeNum) : drawLtrGraph(normalizeNum);
     }
-    function drawCompData() {
+    function proportionsMeasure(height = 500) {
+        const numToStr = height.toString()
+        const digitsCounter = numToStr.length;
+        if (digitsCounter > 3) {
+            const normalizeNum = 10 ** Math.abs(3 - digitsCounter) ;
+            setUnits(1000 * normalizeNum);
+            return normalizeNum;
+        } else {
+            return 1;
+        }
+    }
+    function drawCompData(normalizeNum) {
 
         // drawing main canvas
 
         const canvas = mainCanvasRef.current;
+        if (!canvas) return; // consloe errors
         const middleX = canvas.width / 2;
         const middleY = canvas.height / 2;
         const ctx = canvas.getContext("2d");
@@ -68,6 +85,9 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         ctx.moveTo(0, middleY);
         let i, lineLength, monthX;
         lineLength = lineGraph.length;
+        lineGraph.forEach((value, i) => {
+            lineGraph[i] = value/normalizeNum
+        })
         monthX = 0;
         for (i = 0; i < lineLength; ++i) {
             monthX += 100;
@@ -108,7 +128,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         ctx.lineTo(middleX + 60, 40);
         ctx.stroke();
     }
-    function drawLtrGraph() {
+    function drawLtrGraph(normalizeNum) {
 
         // drawing main alternative canvas
 
@@ -125,6 +145,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         // altentive solution first part
         for (i = 0; i < lineLength; ++i) {
             monthX += 100
+            lineGraph[i] /= normalizeNum;
             currentPoint = Math.abs((canvasHeight - lineGraph[i]));
             currentQuantity = lineGraph[i];
             ltrCtx.lineTo(monthX, currentPoint);
@@ -179,7 +200,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     useEffect(() => {
         getMonthesData();
     });
-
+    
     // styling
     const [graphHeadLine, mainCanvasStyle, secondaryCanvasStyle] = [
         { fontFamily: 'Comic', color: 'orange' },
@@ -222,7 +243,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
                             ref={mainCanvasRef}
                             style={mainCanvasStyle}>
                         </canvas>
-                        <span style={quantitySpan}>Stock quantity | (<b className="text-danger">1000</b> per unit)</span>
+                        <span style={quantitySpan}>Stock quantity | (<b className="text-danger">{units}</b> per unit)</span>
                         <span style={yearSpan}>{year}</span>
                         <canvas
                             width={width}
