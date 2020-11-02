@@ -50,7 +50,6 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         // handle big quantity of stock
         normalizeNum = proportionsMeasure(canvasHeight);
         canvasHeight /= normalizeNum; 
-        console.log(canvasHeight)
         monthesLength = monthGraphNames.length;
         canvasWidth = monthesLength * 100;
         scaleCanvasWidth(canvasWidth);
@@ -73,7 +72,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         // drawing main canvas
 
         const canvas = mainCanvasRef.current;
-        if (!canvas) return; // consloe errors
+        if (!canvas) return; // console errors
         const middleX = canvas.width / 2;
         const middleY = canvas.height / 2;
         const ctx = canvas.getContext("2d");
@@ -225,14 +224,17 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     return (
         <div>
             <h5 className="text-info">Graph View</h5>
-            {err && <h2 style={{ color: 'red' }} > 
+            {err ? <div> <h2 style={{ color: 'red' }} > 
             <small className="text-info">
                 {'To view warehouse stock click on "Display Details" '}
                 </small> 
                 &#128073;
                 <br /> 
             {err}
-            </h2>}
+            </h2>
+    </div>            
+            :
+            <div>
             <h3 style={graphHeadLine}>Stock History Sketch</h3>
             {
                 graphViewFlag ?
@@ -274,11 +276,13 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
                     </>
 
             }
-
+            </div>
+        }
+            {!err &&
             <Button color="primary" onClick={toggleGraph} style={switchDirectionButton}>
             {graphViewFlag ? 'Show Regular Graph Direction' : 'Show Right To Left Graph' }
             </Button>
-
+            }
         </div>
     )
 }

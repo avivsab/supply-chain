@@ -11,7 +11,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
+  NavbarText,
+  UncontrolledTooltip
 } from 'reactstrap';
 
 import Logo from './Logo'
@@ -30,10 +31,14 @@ const Upper = styled.span`
 `;
 
 
-const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
+export const CompanyDashboard = ({ warehouses = [], passActiveWarehouse = {}, rest }) => {
+  const { history } = { ...rest }
   const [isOpen, setIsOpen] = useState(false);
   const exsistWarehouses = [];
   warehouses.forEach((property, i) => exsistWarehouses[i] = property.name);
+
+  const warehousesUseCases = [];
+  warehouses.forEach((property, i) => warehousesUseCases[i] = property.useCase);
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -53,6 +58,11 @@ const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
     passActiveWarehouse([...warehouses]);
   }
 
+  function showWarehouseOptions() {
+    if (history.location.pathname !== '/alerts') return;
+    history.push('/')
+  }
+
   return (
     <MainBlueNav>
       <Navbar light expand="md">
@@ -63,24 +73,37 @@ const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto text-white" navbar>
             <NavItem >
-              <NavLink href="/components/" className='text-white'>Inventory</NavLink>
+              <NavLink id="git" href="https://github.com/avivsab/supply-chain" className='text-white'>Repository</NavLink>
+                <UncontrolledTooltip placement="bottom" target="git">
+                  view source code
+                </UncontrolledTooltip>
             </NavItem>
             <NavItem >
-              <NavLink className='text-white' href="https://github.com/reactstrap/reactstrap">Alerts</NavLink>
+              <NavLink id="alerts" className='text-white' href="/alerts">Alerts</NavLink>
+              <UncontrolledTooltip placement="bottom" target="alerts">
+                  future alerts route
+                </UncontrolledTooltip>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav>
-                <Boldlink className='text-white'>
-                  Products Managment
-              </Boldlink>
+                <Boldlink className='text-white' id="main-functionality">
+                  <span onMouseEnter={showWarehouseOptions}>
+                    Products Managment
+                  </span>
+                </Boldlink>
+                <UncontrolledTooltip placement="right" target="main-functionality" style={{width: '280px', padding: 3}}>
+                   Main Functioning Warehouses
+                </UncontrolledTooltip>
               </DropdownToggle>
-
               <DropdownMenu right>
                 {exsistWarehouses.map((warehouse, i) => {
                   return (
-                    <DropdownItem key={`warehouse${i}`} onClick={() => activateWarehouse(warehouse)}>
+                    <DropdownItem key={`warehouse${i}`} onClick={() => activateWarehouse(warehouse)} id={'wh' + i}>
                       <Upper>
                         warehouse {warehouse}
+                        <UncontrolledTooltip placement="right" target={'wh' + i}>
+                          {warehousesUseCases[i]}
+                        </UncontrolledTooltip>
                       </Upper>
                     </DropdownItem>
                   )

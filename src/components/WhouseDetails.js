@@ -115,14 +115,14 @@ export class WhouseDetails extends Component {
                     </details>
                     <section>
                         <div><Upper>product</Upper>:<p className="font-weight-bold text-primary">{product}</p></div>
-                        <div><Upper>quantity</Upper>:<p className="font-weight-bold text-success">{quantity}</p></div>
+                        <div><Upper>current quantity</Upper>:<p className="font-weight-bold text-success">{quantity}</p></div>
                         {expired==='No expiration date'?
-                        <div><Upper>date</Upper>:<p className="font-weight-bold text-info">{expired}</p></div>
+                        <div><Upper>expiration date</Upper>:<p className="font-weight-bold text-info">{expired}</p></div>
                         :
-                        new Date(expired).toUTCString() === 'Invalid Date'?
+                        new Date(expired).toLocaleString() === 'Invalid Date'?
                         <Unexpired Upper={Upper}/>
                         :
-                        <div><Upper>date</Upper>:<p className="font-weight-bold text-info">{new Date(expired).toUTCString()}</p></div>
+                        <div><Upper>expiration date</Upper>:<p className="font-weight-bold text-info">{new Date(expired).toLocaleString()}</p></div>
                     }
                     </section>
                     </>
