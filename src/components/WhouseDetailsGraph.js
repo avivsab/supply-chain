@@ -49,7 +49,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         canvasHeight = (Math.max(...lineGraph) + 50);
         // handle big quantity of stock
         normalizeNum = proportionsMeasure(canvasHeight);
-        canvasHeight /= normalizeNum; 
+        canvasHeight /= normalizeNum;
         monthesLength = monthGraphNames.length;
         canvasWidth = monthesLength * 100;
         scaleCanvasWidth(canvasWidth);
@@ -60,7 +60,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         const numToStr = height.toString()
         const digitsCounter = numToStr.length;
         if (digitsCounter > 3) {
-            const normalizeNum = 10 ** Math.abs(3 - digitsCounter) ;
+            const normalizeNum = 10 ** Math.abs(3 - digitsCounter);
             setUnits(1000 * normalizeNum);
             return normalizeNum;
         } else {
@@ -85,7 +85,7 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
         let i, lineLength, monthX;
         lineLength = lineGraph.length;
         lineGraph.forEach((value, i) => {
-            lineGraph[i] = value/normalizeNum
+            lineGraph[i] = value / normalizeNum
         })
         monthX = 0;
         for (i = 0; i < lineLength; ++i) {
@@ -170,10 +170,10 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     const toggleErr = (error) => {
         if (!error) return;
         if (typeof error === 'object' && error.message.includes("Unexpected token")) {
-            const httpError = new Error("can't retrieve data - connection or parsing syntax problem")
-            console.log(`\x1b[35mCustom dev msg ${httpError}`);
+            const httpError = new Error("can't retrieve data - API resource isn't exsist or remote json file unsturctured")
+            console.log(`\x1b[35mCustom development message: \n ${httpError}`);
             setTimeout(() => { // UX
-                handleErr("Time line can't be shown in graph");
+                handleErr("No stock history data");
             }, 500);
         }
     };
@@ -192,31 +192,35 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     const ltrSecondaryCanvasRef = React.createRef();
 
     const [graphViewFlag, setLtrView] = React.useState(true);
+    const [alignGraphFlag, setGraphAlignment] = React.useState(false);
     const toggleGraph = () => {
         setLtrView(!graphViewFlag);
     }
+    const toggleAlignment = () => setGraphAlignment(!alignGraphFlag)
 
     useEffect(() => {
         getMonthesData();
     });
-    
+
     // styling
-    const [graphHeadLine, mainCanvasStyle, secondaryCanvasStyle] = [
+    const [graphHeadLine, mainCanvasStyle, secondaryCanvasStyle, altentiveCanvasStyle] = [
         { fontFamily: 'Comic', color: 'orange' },
         { backgroundColor: "lavender", transform: 'skewX(8deg) rotateX(180deg) rotateY(180deg)' },
-        { display: 'block', margin: 'auto', position: 'relative', left: '35px' }
+        { display: 'block', margin: 'auto', position: 'relative', left: '35px' },
+        { backgroundColor: "lavender", transform: 'rotateX(180deg) rotateY(180deg)' },
     ];
     const [quantitySpan, yearSpan, regularGraphSpan] = [
-        { position: 'absolute' },
-        { color: 'cadetblue', zIndex: 1, position: 'relative', bottom: '5px', right: '520px' },
-        { color: 'cadetblue', zIndex: 1, position: 'relative', top: '18px' },
+        { position: 'absolute',display: 'inlineBlock', paddingRight: 3 },
+        { color: 'cadetblue', zIndex: 1, position: 'relative', bottom: '5px', right: '520px', fontWeight: 'bold' },
+        { color: 'cadetblue', zIndex: 1, position: 'relative', top: '18px', fontWeight: 'bold' },
 
     ];
     const switchDirectionButton = {
         position: 'absolute',
         right: '15px',
         top: '17%',
-        margin: '10px'}
+        margin: '10px'
+    }
     // graph date
     const date = new Date();
     const year = date.getFullYear();
@@ -224,65 +228,79 @@ export default function WhouseDetailsGraph({ activeWarehouse }) {
     return (
         <div>
             <h5 className="text-info">Graph View</h5>
-            {err ? <div> <h2 style={{ color: 'red' }} > 
-            <small className="text-info">
-                {'To view warehouse stock click on "Display Details" '}
-                </small> 
-                &#128073;
-                <br /> 
-            {err}
-            </h2>
-    </div>            
-            :
-            <div>
-            <h3 style={graphHeadLine}>Stock History Sketch</h3>
-            {
-                graphViewFlag ?
-                    <>
-                        <canvas
-                            width={width}
-                            height={height}
-                            ref={mainCanvasRef}
-                            style={mainCanvasStyle}>
-                        </canvas>
-                        <span style={quantitySpan}>Stock quantity | (<b className="text-danger">{units}</b> per unit)</span>
-                        <span style={yearSpan}>{year}</span>
-                        <canvas
-                            width={width}
-                            height={100}
-                            ref={secondaryCanvasRef}
-                            style={secondaryCanvasStyle}
-                        >
-                        </canvas>
-                    </>
-                    :
-                    <>
-                        <canvas
-                            width={width}
-                            height={height}
-                            ref={ltrMainCanvasRef}
-                            style={{ backgroundColor: "currentColor", transform: 'skewX(8deg)' }}
-                        >
-                        </canvas>
-                        <span style={quantitySpan}>Stock quantity | (<b className="text-danger">1000</b> per unit)</span>
-                        <span style={regularGraphSpan}>{year}</span>
-                        <canvas
-                            width={width}
-                            height={100}
-                            ref={ltrSecondaryCanvasRef}
-                            style={secondaryCanvasStyle}
-                        >
-                        </canvas>
-                    </>
-
-            }
+            {err ? <div>
+                <h2 style={{ color: 'red' }} >
+                    <small className="text-info">
+                        Current warehouse stock available on "Display Details" button
+                    </small>
+                    &#128073;
+                <br />
+                    {err}
+                </h2>
             </div>
-        }
-            {!err &&
-            <Button color="primary" onClick={toggleGraph} style={switchDirectionButton}>
-            {graphViewFlag ? 'Show Regular Graph Direction' : 'Show Right To Left Graph' }
-            </Button>
+                :
+                <div>
+                    <h3 style={graphHeadLine}>Stock History Sketch</h3>
+                    {
+                        graphViewFlag ?
+                            <>
+                                <canvas
+                                    width={width}
+                                    height={height}
+                                    ref={mainCanvasRef}
+                                    style={alignGraphFlag ? altentiveCanvasStyle : mainCanvasStyle}>
+                                </canvas>
+                                <span style={quantitySpan}>Stock quantity <br /><b className="text-danger">{units}</b> per unit</span>
+                                <span style={yearSpan}>{year}</span>
+                                <canvas
+                                    width={width}
+                                    height={100}
+                                    ref={secondaryCanvasRef}
+                                    style={secondaryCanvasStyle}
+                                >
+                                </canvas>
+                            </>
+                            :
+                            <>
+                                <canvas
+                                    width={width}
+                                    height={height}
+                                    ref={ltrMainCanvasRef}
+                                    style={alignGraphFlag ? { backgroundColor: "currentColor" } : {backgroundColor: "currentColor", transform: "skewX(8deg"}}
+                                >
+                                </canvas>
+                                <span style={quantitySpan}>Stock quantity | (<b className="text-danger">1000</b> per unit)</span>
+                                <span style={regularGraphSpan}>{year}</span>
+                                <canvas
+                                    width={width}
+                                    height={100}
+                                    ref={ltrSecondaryCanvasRef}
+                                    style={secondaryCanvasStyle}
+                                >
+                                </canvas>
+                            </>
+
+                    }
+                </div>
             }
+            
+                <Button color="primary" 
+                onClick={toggleGraph} 
+                style={switchDirectionButton} 
+                disabled={!!err}
+                >
+                    {graphViewFlag ? 'Show Regular Graph Direction' : 'Show Right To Left Graph'}
+                </Button>
+                {!err && 
+                <Button 
+                outline 
+                color="primary" 
+                onClick={toggleAlignment} 
+                // style={switchDirectionButton} 
+                >
+                    {!alignGraphFlag ? 'Align Graph' : 'Initial View'}
+                </Button>
+                }
         </div>
     )
 }
