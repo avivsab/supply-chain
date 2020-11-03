@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/avivsab/supply-chain/master/static/css/main.18045e65.chunk.css",
-    "main.js": "/avivsab/supply-chain/master/static/js/main.8709355f.chunk.js",
-    "main.js.map": "/avivsab/supply-chain/master/static/js/main.8709355f.chunk.js.map",
-    "runtime-main.js": "/avivsab/supply-chain/master/static/js/runtime-main.900f16fb.js",
-    "runtime-main.js.map": "/avivsab/supply-chain/master/static/js/runtime-main.900f16fb.js.map",
-    "static/css/2.d9ad5f5c.chunk.css": "/avivsab/supply-chain/master/static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.42ab8724.chunk.js": "/avivsab/supply-chain/master/static/js/2.42ab8724.chunk.js",
-    "static/js/2.42ab8724.chunk.js.map": "/avivsab/supply-chain/master/static/js/2.42ab8724.chunk.js.map",
-    "index.html": "/avivsab/supply-chain/master/index.html",
-    "precache-manifest.706cff24960c9a2f9899dda245cc4d3b.js": "/avivsab/supply-chain/master/precache-manifest.706cff24960c9a2f9899dda245cc4d3b.js",
-    "service-worker.js": "/avivsab/supply-chain/master/service-worker.js",
-    "static/css/2.d9ad5f5c.chunk.css.map": "/avivsab/supply-chain/master/static/css/2.d9ad5f5c.chunk.css.map",
-    "static/css/main.18045e65.chunk.css.map": "/avivsab/supply-chain/master/static/css/main.18045e65.chunk.css.map",
-    "static/js/2.42ab8724.chunk.js.LICENSE.txt": "/avivsab/supply-chain/master/static/js/2.42ab8724.chunk.js.LICENSE.txt"
+    "main.css": "/avivsab/supply-chain/static/css/main.18045e65.chunk.css",
+    "main.js": "/avivsab/supply-chain/static/js/main.8709355f.chunk.js",
+    "main.js.map": "/avivsab/supply-chain/static/js/main.8709355f.chunk.js.map",
+    "runtime-main.js": "/avivsab/supply-chain/static/js/runtime-main.378c371e.js",
+    "runtime-main.js.map": "/avivsab/supply-chain/static/js/runtime-main.378c371e.js.map",
+    "static/css/2.d9ad5f5c.chunk.css": "/avivsab/supply-chain/static/css/2.d9ad5f5c.chunk.css",
+    "static/js/2.cd4c5e7a.chunk.js": "/avivsab/supply-chain/static/js/2.cd4c5e7a.chunk.js",
+    "static/js/2.cd4c5e7a.chunk.js.map": "/avivsab/supply-chain/static/js/2.cd4c5e7a.chunk.js.map",
+    "index.html": "/avivsab/supply-chain/index.html",
+    "precache-manifest.9be035f5320df98876c0f159b62e29a9.js": "/avivsab/supply-chain/precache-manifest.9be035f5320df98876c0f159b62e29a9.js",
+    "service-worker.js": "/avivsab/supply-chain/service-worker.js",
+    "static/css/2.d9ad5f5c.chunk.css.map": "/avivsab/supply-chain/static/css/2.d9ad5f5c.chunk.css.map",
+    "static/css/main.18045e65.chunk.css.map": "/avivsab/supply-chain/static/css/main.18045e65.chunk.css.map",
+    "static/js/2.cd4c5e7a.chunk.js.LICENSE.txt": "/avivsab/supply-chain/static/js/2.cd4c5e7a.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.900f16fb.js",
+    "static/js/runtime-main.378c371e.js",
     "static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.42ab8724.chunk.js",
+    "static/js/2.cd4c5e7a.chunk.js",
     "static/css/main.18045e65.chunk.css",
     "static/js/main.8709355f.chunk.js"
   ]
