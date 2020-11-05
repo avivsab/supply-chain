@@ -17,6 +17,7 @@ import {
 
 import Logo from './Logo'
 import styled from 'styled-components'
+import { useHistory } from "react-router-dom";
 
 const MainBlueNav = styled.div`
     background-color: blue;
@@ -31,8 +32,9 @@ const Upper = styled.span`
 `;
 
 
-export const CompanyDashboard = ({ warehouses = [], passActiveWarehouse = {}, rest }) => {
-  const { history } = { ...rest }
+export const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
+  let history = useHistory();
+
   const [isOpen, setIsOpen] = useState(false);
   const exsistWarehouses = [];
   warehouses.forEach((property, i) => exsistWarehouses[i] = property.name);
@@ -58,9 +60,10 @@ export const CompanyDashboard = ({ warehouses = [], passActiveWarehouse = {}, re
     passActiveWarehouse([...warehouses]);
   }
 
+  const whButtonSwitch = history.location.pathname;
+  const whButtonFlag = whButtonSwitch === '/' ? true : false;
   function showWarehouseOptions() {
-    if (history.location.pathname !== '/alerts') return;
-    history.push('/')
+    history.push('/');
   }
 
   return (
@@ -74,25 +77,31 @@ export const CompanyDashboard = ({ warehouses = [], passActiveWarehouse = {}, re
           <Nav className="mr-auto text-white" navbar>
             <NavItem >
               <NavLink id="git" href="https://github.com/avivsab/supply-chain" className='text-white'>Repository</NavLink>
-                <UncontrolledTooltip placement="bottom" target="git">
-                  view source code
+              <UncontrolledTooltip placement="bottom" target="git">
+                view source code
                 </UncontrolledTooltip>
             </NavItem>
             <NavItem >
               <NavLink id="alerts" className='text-white' href="/alerts">Alerts</NavLink>
               <UncontrolledTooltip placement="bottom" target="alerts">
-                  future alerts route
+                future alerts route
                 </UncontrolledTooltip>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav>
                 <Boldlink className='text-white' id="main-functionality">
-                  <span onMouseEnter={showWarehouseOptions}>
-                    Products Managment
+                  {whButtonFlag ?
+                    <span>
+                      Products Managment
                   </span>
+                    :
+                    <span onClick={showWarehouseOptions}>
+                      back to warehouses details
+                </span>
+                  }
                 </Boldlink>
-                <UncontrolledTooltip placement="right" target="main-functionality" style={{width: '280px', padding: 3}}>
-                   Main Functioning Warehouses
+                <UncontrolledTooltip placement="right" target="main-functionality" style={{ width: '280px', padding: 3 }}>
+                  Main Functioning Warehouses
                 </UncontrolledTooltip>
               </DropdownToggle>
               <DropdownMenu right>
