@@ -9,6 +9,7 @@ export const Alerts = (props) => {
     const intialWarehouses = props.initialWarehouses;
 
     const [validForm, setValidForm] = useState(false);
+    const [currentUser, setcurrentUser] = useState('')
 
     function checkSessionAllreadyValidtate() {
         if (sessionStorage.getItem('validOnSession') === 'true') {
@@ -31,11 +32,11 @@ export const Alerts = (props) => {
                     <br />
                         To see logs fill out the fields
                     </Alert>
-                    <Login passValidityCheck={setValidForm} />
+                    <Login passValidityCheck={setValidForm} passCurrentUser={setcurrentUser} />
                 </>
                 }
                 {validForm &&
-                    <AlertsList {...props} />
+                    <AlertsList {...props} currentUser={currentUser} />
                 }
             </div>
         </div>
