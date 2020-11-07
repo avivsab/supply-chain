@@ -92,7 +92,7 @@ export const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
                 <Boldlink className='text-white' id="main-functionality">
                   {whButtonFlag ?
                     <span>
-                      Products Managment
+                      Warehouses Managment
                   </span>
                     :
                     <span onClick={showWarehouseOptions}>

@@ -20,8 +20,11 @@ export const Login = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return false;
-    sessionStorage.setItem('validOnSession', 'true')
-    return props.passValidityCheck(true);
+    sessionStorage.setItem('validOnSession', 'true');   
+    return (
+      props.passValidityCheck(true), 
+      props.passCurrentUser(userName)
+      );
   }
 
   return (
@@ -29,7 +32,6 @@ export const Login = (props) => {
       <Form className="container-md" onSubmit={handleSubmit}>
         <FormGroup className="position-relative">
           <Label>Your Username</Label>
-
           <Input
             onChange={handleChange}
             name="username"
@@ -40,14 +42,12 @@ export const Login = (props) => {
           />
           <UncontrolledTooltip placement="right" target="username">
             Any Charactars...
-      </UncontrolledTooltip>
+          </UncontrolledTooltip>
           <FormFeedback valid tooltip>Valid!</FormFeedback>
           <FormText>Longer then 5 characters</FormText>
         </FormGroup>
-
         <FormGroup className="position-relative mb-5">
           <Label>Your Password</Label>
-
           <Input
             onChange={handleChange}
             name="password"
@@ -56,7 +56,6 @@ export const Login = (props) => {
             valid={password.length > 2}
             value={password}
           />
-
           <UncontrolledTooltip placement="right" target="password">
             Just Type (3 or more)
           </UncontrolledTooltip>
@@ -64,7 +63,6 @@ export const Login = (props) => {
           <FormFeedback valid tooltip>Valid!</FormFeedback>
           <FormText>At least 3 characters</FormText>
         </FormGroup>
-
         <Button 
         outline 
         color="primary" 
@@ -72,7 +70,7 @@ export const Login = (props) => {
         disabled={!validateForm()}
         >
           Show Logs
-          </Button>
+        </Button>
       </Form>
     </Row>
   );

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from 'reactstrap';
 import './main.css'
 import WhouseDetails from './WhouseDetails'
-import WhouseDetailsGraph from './WhouseDetailsGraph'
+import CanvasGraphicDetails from './CanvasGraphicDetails'
 import CompanyDashboard from './CompanyDashbord'
 export const Main = (props) => {
     // const passRouter = props.path;
@@ -27,7 +27,7 @@ export const Main = (props) => {
                                 </>
                                 :
                                 <>
-                                    <WhouseDetailsGraph activeWarehouse={warehouses} />
+                                    <CanvasGraphicDetails activeWarehouse={warehouses} />
                                     <Button color="info" className="view-button" onClick={toggleView}>Display Details</Button>
                                 </>
                         }

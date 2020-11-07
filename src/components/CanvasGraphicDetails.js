@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Button } from 'reactstrap'
 
-export default function WhouseDetailsGraph({ activeWarehouse }) {
+export default function CanvasGraphicDetails({ activeWarehouse }) {
     let [currentWH] = activeWarehouse.filter(wh => wh.active);
     currentWH = currentWH.name;
     const URL = `wh-${currentWH}-history.json`;
