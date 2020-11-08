@@ -15,7 +15,7 @@ const initialWarehouses = [
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename="/supply-chain">
       <Route path="/" exact render={() => <Main initialWarehouses={initialWarehouses} />}  />
       <Route path="/alerts" exact render={() => <Alerts initialWarehouses={initialWarehouses} />} />
       </Router>

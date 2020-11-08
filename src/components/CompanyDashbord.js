@@ -81,10 +81,10 @@ export const CompanyDashboard = ({ warehouses, passActiveWarehouse }) => {
                 view source code
                 </UncontrolledTooltip>
             </NavItem>
-            <NavItem >
-              <NavLink id="alerts" className='text-white' href="/alerts">Alerts</NavLink>
+            <NavItem id="alerts" style={{margin: '0 35px'}}>
+              <NavLink  className='text-white' href="/alerts" disabled>Alerts </NavLink>
               <UncontrolledTooltip placement="bottom" target="alerts">
-                future alerts route
+                Can be Accessed on development mode
                 </UncontrolledTooltip>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
