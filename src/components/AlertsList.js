@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { Alert, UncontrolledCollapse, Button, Progress, ToastHeader } from 'reactstrap';
 
 export const AlertsList = (props) => {
-  let history = useHistory()
+  // let history = useHistory()
   const warehouses = props.initialWarehouses;
 
   const [details, toggleDetails] = useState(false);
@@ -12,7 +12,8 @@ export const AlertsList = (props) => {
   function removeAutomaticCredential() {
     sessionStorage.removeItem('validOnSession');
     sessionStorage.removeItem('loaded');
-    history.push('/');
+    //history.push('/');
+    props.passVirtulRoute('base');
   }
   useEffect(() => {
     const collapseInt = setInterval(() => {
@@ -84,10 +85,11 @@ export const AlertsList = (props) => {
             onClick={removeAutomaticCredential}
             style={{ cursor: 'pointer' }}
           >
-            Dissmis automatic credentials <br /> and go back to Home page
+            Dissmis automatic credentials <br /> <hr /> and back to Home page
       </Alert>
           <Alert color="light">
-            Later on you should dismiss the credentials or to close the browser
+            Later on you should dismiss the credentials or close the browser  <br />
+            To keep credentials navigate from the navbar menu
       </Alert>
         </div>
       </UncontrolledCollapse>

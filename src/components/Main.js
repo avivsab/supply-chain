@@ -7,12 +7,14 @@ import CompanyDashboard from './CompanyDashbord'
 export const Main = (props) => {
     // const passRouter = props.path;
     const initialWarhouses = props.initialWarehouses;
+    const passVirtulRoute = props.passVirtulRoute;
+    const currentRoute = props.currentRoute
     const [warehouses, setActive] = useState(initialWarhouses);
     const [showGraph, toggleGraph] = useState(false);
     const toggleView = () => toggleGraph(!showGraph);
     return (
         <div>
-            <CompanyDashboard warehouses={warehouses} passActiveWarehouse={setActive} />
+            <CompanyDashboard warehouses={warehouses} passActiveWarehouse={setActive} passVirtulRoute={passVirtulRoute} currentRoute={currentRoute} />
             <h1 className="brand-name text-primary">Company Stocks Managment</h1>
             {warehouses.map(wh => {
                 return (

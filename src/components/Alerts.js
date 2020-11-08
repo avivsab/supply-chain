@@ -7,6 +7,7 @@ import { AlertsList } from './AlertsList'
 
 export const Alerts = (props) => {
     const intialWarehouses = props.initialWarehouses;
+    const passVirtulRoute = props.passVirtulRoute;
 
     const [validForm, setValidForm] = useState(false);
     const [currentUser, setcurrentUser] = useState('')
@@ -23,7 +24,7 @@ export const Alerts = (props) => {
 
     return (
         <div>
-            <CompanyDashboard warehouses={intialWarehouses} />
+            <CompanyDashboard warehouses={intialWarehouses} passVirtulRoute={passVirtulRoute} />
             <h1 className="brand-name text-primary">Company Stocks Managment</h1>
             <div className="container">
                 {!validForm &&
