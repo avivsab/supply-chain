@@ -4,6 +4,8 @@ import './main.css'
 import WhouseDetails from './WhouseDetails'
 import CanvasGraphicDetails from './CanvasGraphicDetails'
 import CompanyDashboard from './CompanyDashbord'
+import { DashbordChart } from './Chart'
+
 export const Main = (props) => {
     // const passRouter = props.path;
     const initialWarhouses = props.initialWarehouses;
@@ -34,7 +36,8 @@ export const Main = (props) => {
                     </div>
                 );
             })
-            }
+        }
+        <DashbordChart />
         </div>
     )
 }
