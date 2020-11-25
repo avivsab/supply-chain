@@ -1,18 +1,35 @@
 # Supply-Chain
 
-Supply-Chain is a REACT project for dealing with companies stocks that updating in warehuoses.
+REACT project for dealing and dispaly in the UI companies warehuoses and inventory.
 
 ## Idea
 
-REACT state object represent the current state of invetory in warehuoses of a company.
-Practice in sharing data between components by passing data comming from the outside via props.
-Retriving external data from JSON files using as data comming from backend.
+REACT state object represent the current state of inventory in warehuoses of a company.<br />
+Practice in sharing data between components by passing data via props and manage state with hooks and class based components.<br />
+JSON files are used as data comming from backend using fetch API request.
+<br /> 
+The final purpose is to detect incidents when data coming from the external source isn't synchronize and then set alerts.
+<br />
+Responsive design and state-managment(Redux/MobX) are not in the scope. 
 
-## Cotribution
 
-The app is being developing on a MAC. 
-Everything in relation to compatibility/browser-compatibility, responsive screen, additional design, additional elements - tables,lists,graphs.. are more than welcome, state managment (Redux/MobX) aren't. 
-The porpuse is to to detect incidents when data comming from the outside isn't synchronize between components and set alerts, by comparing components data.
+## Visualization
+
+The app development is on a MAC, in PC UI may appear differently.
+
+<br />
+
+<p float="left">
+  <img src="screenshots/dashboard.png" width="500" />
+  <br />
+  <img src="screenshots/details.png" width="500" />
+  <br />
+  <img src="screenshots/cssCanvas.png" width="500" />
+  <br />
+  <img src="screenshots/mathCanvas.png" width="500" />
+  <br />
+  <img src="screenshots/alerts.png" width="500" />
+</p>
 
 ## Installation & Usage
 
