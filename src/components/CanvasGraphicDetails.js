@@ -252,7 +252,7 @@ export default function CanvasGraphicDetails({ activeWarehouse }) {
   const switchDirectionButton = {
     position: "absolute",
     right: "15px",
-    top: "17%",
+    top: "165px",
     margin: "10px"
   };
   // graph date

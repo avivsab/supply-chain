@@ -4,36 +4,37 @@ REACT project for dealing and dispaly in the UI companies warehuoses and invento
 
 ## Idea
 
-REACT state object represent the current state of inventory in warehuoses of a company.<br />
-Practice in sharing data between components by passing data via props and manage state with hooks and class based components.<br />
-JSON files are used as data comming from backend using fetch API request.
+Sharing warehouses data via props and manage the state of each warehouse with hooks and class based components.<br />
+JSON files in the public folder are used as data comming from backend using the fetch API.
 <br /> 
-The final purpose is to detect incidents when data coming from the external source isn't synchronize and then set alerts.
+The final purpose is to set alerts for exceptual incidents about the data coming from the external sources.
 <br />
-Responsive design and state-managment(Redux/MobX) are not in the scope. 
 
+Responsive design and state-managment(Redux/MobX) are not in the projcet scope at all. 
 
-## Visualization
-
-The app development is on a MAC, in PC UI may appear differently.
+##### The app development is on a MAC, on a PC UI may appear differently.
 
 <br />
 
 <p float="left">
-  <img src="screenshots/dashboard.png" width="500" />
+  <img src="screenshots/fullScreen.png" width="700" />
   <br />
-  <img src="screenshots/details.png" width="500" />
+  <img src="screenshots/dashboard.png" width="700" />
   <br />
-  <img src="screenshots/cssCanvas.png" width="500" />
+  <img src="screenshots/details.png" width="700" />
   <br />
-  <img src="screenshots/mathCanvas.png" width="500" />
+  <img src="screenshots/cssCanvas.png" width="700" />
   <br />
-  <img src="screenshots/alerts.png" width="500" />
+  <img src="screenshots/mathCanvas.png" width="700" />
+  <br />
+  <img src="screenshots/alignCanvas.png" width="700" />
+  <br />
+  <img src="screenshots/alerts.png" width="700" />
 </p>
 
 ## Installation & Usage
 
-Use the Node package manager [(NPM)](https://www.npmjs.com/get-npm) to install Supply-Chain.
+Clone and run:
 
 ```bash
 npm install
