@@ -1,18 +1,13 @@
 # Supply-Chain
 
-REACT project for dealing and dispaly in the UI companies warehuoses and inventory.
+React project for dealing and displaying current and historical company inventory.
 
 ## Idea
 
 Sharing warehouses data via props and manage the state of each warehouse with hooks and class based components.<br />
-JSON files in the public folder are used as data comming from backend using the fetch API.
-<br /> 
-The final purpose is to set alerts for exceptual incidents about the data coming from the external sources.
-<br />
+HTTP requests with the Fetch API to JSON files in the public folder are used as data comming from backend.
 
-Responsive design and state-managment(Redux/MobX) are not in the projcet scope at all. 
-
-##### The app development is on a MAC, on a PC UI may appear differently.
+##### Development on MAC.
 
 <br />
 
